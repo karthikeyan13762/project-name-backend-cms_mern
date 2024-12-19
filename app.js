@@ -1,5 +1,7 @@
 const express = require("express");
 
+require("dotenv").config({ path: "./config/config.env" });
+
 const morgan = require("morgan");
 
 const connectDB = require("./config/db.js");
@@ -12,7 +14,8 @@ app.use(express.json()); //express.json() is a middleware is used send responses
 
 app.use(morgan("tiny")); // morgan is a middle ware is used for loging any api endpoints in our console
 
-//basic route [http://localhost:8000/]
+app.use("/api", require("./routes/auth.js"));
+//basic localhost route [http://localhost:8000/]
 
 app.get("/", (req, res) => {
   res.send("Hello Karthi");
@@ -25,7 +28,7 @@ app.listen(PORT, async () => {
   //  app starts after mongoDB connection
   try {
     await connectDB();
-    console.log(`server is listening on ${PORT}`);
+    console.log(`server is listening on http://localhost:${PORT}`);
   } catch (err) {
     console.log(err);
   }
